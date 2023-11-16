@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  cronapp:
+    container_name: cronapp
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: landscapedatacommons/cronapp:0.0.1
+
+    networks:
+      - pg-network
+
+networks:
+  pg-network:
+    name: pg-network
+    external: true
