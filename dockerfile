@@ -2,9 +2,13 @@ FROM golang:1.21.4-alpine3.18
 WORKDIR /app
 
 # copying go dependencies into container
-COPY ./src/go.mod ./src/go.sum ./src/main.go ./src/.env ./ 
+# USER ROOT
+
+COPY --chown=root:root ./src/go.mod ./src/go.sum ./src/main.go ./src/.env ./ 
+COPY --chown=root:root ./src/.env /
+COPY --chown=root:root ./src/.env /root
 # copying cron config into container
-COPY ./entry.sh ./
+COPY --chown=root:root ./entry.sh ./
 # COPY ./script.sh ./
 # COPY ./crontab.txt ./
 

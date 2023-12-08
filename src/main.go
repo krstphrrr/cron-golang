@@ -12,27 +12,22 @@ import (
 
 func init(){
 	if err:= godotenv.Load("/app/.env"); err != nil{
-		log.Print("No .env file found")
+		log.Fatal("No .env file found", err)
 	}
 }
 var (
-	host = os.Getenv("DBHOST")
-	port = 5432
-	user = os.Getenv("DBUSER")
-	password = os.Getenv("DBPW")
-	dbname = os.Getenv("DBNAME")
+	str = os.Getenv("DBSTR")
 )
 
 
 func main(){
 	// setting up db connection
-	
-	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	db, err := sql.Open("postgres", psqlconn)
+	var connStr string
+	connStr = str
+	db, err := sql.Open("postgres", connStr)
 	CheckError(err)
 
 	defer db.Close()
-
 	// setting up SQL Query
 	getStmt := `select exists (
 			select "mlra_name" 
